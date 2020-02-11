@@ -51,4 +51,14 @@ public class ShoppingTest {
         checkoutService.checkout(basket);
     }
 
+    @Test
+    public void shouldApplyDiscountForSoupTins(){
+        ShoppingBasket basket = new ShoppingBasket();
+        basket.add(3, TIN, "soup");
+        basket.add(2, LOAF, "bread");
+
+        Receipt receipt = checkoutService.checkout(basket);
+        assertEquals("basket total price doesn't apply soup discounts correctly", 3.15, receipt.getTotal(), DELTA);
+    }
+
 }

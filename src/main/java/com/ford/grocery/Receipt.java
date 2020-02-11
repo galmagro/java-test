@@ -12,5 +12,4 @@ public class Receipt {
         total = total + stockItem.getCost() * quantity;
     }
 
-
 }
