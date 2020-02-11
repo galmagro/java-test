@@ -2,8 +2,15 @@ package com.ford.grocery;
 
 public class Receipt {
 
+    private double total;
 
     public double getTotal() {
-        return 0;
+        return total;
     }
+
+    public void addItems(final int quantity, final StockItem stockItem) {
+        total = total + stockItem.getCost() * quantity;
+    }
+
+
 }
