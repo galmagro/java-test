@@ -53,3 +53,5 @@ All outputs must print to the command line.
      - Expected total cost = 1.97.
  
  
+###How to run the solution
+Run command `mvn compile exec:java` for command line client.
