@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import com.ford.grocery.checkout.CheckoutService;
 import com.ford.grocery.checkout.Receipt;
 
+import com.ford.grocery.offer.memory.InMemoryOfferRepository;
 import com.ford.grocery.stock.json.JsonStockItemRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class ShoppingTest {
 
     @Before
     public void prepareTests(){
-        this.checkoutService = new CheckoutService(new JsonStockItemRepository());
+        this.checkoutService = new CheckoutService(new JsonStockItemRepository(), new InMemoryOfferRepository());
     }
 
     @Test
