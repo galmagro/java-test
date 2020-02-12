@@ -4,14 +4,17 @@ import static com.ford.grocery.stock.ItemUnitType.BOTTLE;
 import static com.ford.grocery.stock.ItemUnitType.LOAF;
 import static com.ford.grocery.stock.ItemUnitType.SINGLE;
 import static com.ford.grocery.stock.ItemUnitType.TIN;
+import static java.time.LocalDate.now;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Iterator;
 
 import com.ford.grocery.checkout.CheckoutService;
 import com.ford.grocery.checkout.Receipt;
-
+import com.ford.grocery.offer.Discount;
 import com.ford.grocery.offer.memory.InMemoryOfferRepository;
 import com.ford.grocery.stock.json.JsonStockItemRepository;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -75,8 +78,38 @@ public class ShoppingTest {
 
         Receipt receipt = checkoutService.checkout(basket);
         assertEquals("basket total price shouldn't be applying apple discounts", 1.90, receipt.getTotal(), DELTA);
-        Assert.assertTrue(receipt.getDiscounts().isEmpty());
+        assertTrue("receipt should not have any discounts", receipt.getDiscounts().isEmpty());
 
+    }
+
+    @Test
+    public void shouldApplyDiscountForApplesIn5DaysTime(){
+        ShoppingBasket basket = new ShoppingBasket(now().plusDays(5));
+        basket.add(6, SINGLE, "apples");
+        basket.add(1, BOTTLE, "milk");
+
+        Receipt receipt = checkoutService.checkout(basket);
+        assertEquals("basket total price should be applying apple discounts", 1.84, receipt.getTotal(), DELTA);
+        assertEquals("receipt should reflect a discount", 1, receipt.getDiscounts().size());
+        final Discount discount = receipt.getDiscounts().iterator().next();
+        assertEquals("discount amount should be 0.06", 0.06, discount.getDiscountAmount(), DELTA);
+    }
+
+    @Test
+    public void shouldApplyDiscountsForApplesAndTinsOfSoupIn5DaysTime(){
+        ShoppingBasket basket = new ShoppingBasket(now().plusDays(5));
+        basket.add(3, SINGLE, "apples");
+        basket.add(2, TIN, "soup");
+        basket.add(1, LOAF, "bread");
+
+        Receipt receipt = checkoutService.checkout(basket);
+        assertEquals("basket total price should be applying expected discounts", 1.97, receipt.getTotal(), DELTA);
+        assertEquals("receipt should reflect two discounts", 2, receipt.getDiscounts().size());
+        final Iterator<Discount> discountIterator = receipt.getDiscounts().iterator();
+        final Discount discount1 = discountIterator.next();
+        final Discount discount2 = discountIterator.next();
+        assertEquals("discount amount for bread should be 0.4", 0.4, discount1.getDiscountAmount(), DELTA);
+        assertEquals("discount amount for apples should be 0.3", 0.3, discount2.getDiscountAmount(), DELTA);
     }
 
 }
