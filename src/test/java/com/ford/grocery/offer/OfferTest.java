@@ -41,7 +41,7 @@ public class OfferTest {
 
         assertTrue("offer should apply to the basket", basket.isEligibleFor(soupTinsOffer));
         final Discount discount = soupTinsOffer.calculateDiscount(basket);
-        assertEquals(0.40, discount.getDiscountAmount(), DELTA);
+        assertEquals(0.40, discount.getTotalDiscountAmount(), DELTA);
         assertEquals(1, discount.getTimesApplied());
     }
 
@@ -66,7 +66,7 @@ public class OfferTest {
 
         assertTrue("offer should apply to the basket", basket.isEligibleFor(applesOffer));
         final Discount discount = applesOffer.calculateDiscount(basket);
-        assertEquals(0.03, discount.getDiscountAmount(), DELTA);
+        assertEquals(0.03, discount.getTotalDiscountAmount(), DELTA);
         assertEquals(3, discount.getTimesApplied());
 
     }

@@ -92,7 +92,7 @@ public class ShoppingTest {
         assertEquals("basket total price should be applying apple discounts", 1.84, receipt.getTotal(), DELTA);
         assertEquals("receipt should reflect a discount", 1, receipt.getDiscounts().size());
         final Discount discount = receipt.getDiscounts().iterator().next();
-        assertEquals("discount amount should be 0.06", 0.06, discount.getDiscountAmount(), DELTA);
+        assertEquals("discount amount should be 0.06", 0.06, discount.getTotalDiscountAmount(), DELTA);
     }
 
     @Test
@@ -108,8 +108,8 @@ public class ShoppingTest {
         final Iterator<Discount> discountIterator = receipt.getDiscounts().iterator();
         final Discount discount1 = discountIterator.next();
         final Discount discount2 = discountIterator.next();
-        assertEquals("discount amount for bread should be 0.4", 0.4, discount1.getDiscountAmount(), DELTA);
-        assertEquals("discount amount for apples should be 0.3", 0.3, discount2.getDiscountAmount(), DELTA);
+        assertEquals("discount amount for bread should be 0.4", 0.4, discount1.getTotalDiscountAmount(), DELTA);
+        assertEquals("discount amount for apples should be 0.03", 0.03, discount2.getTotalDiscountAmount(), DELTA);
     }
 
 }

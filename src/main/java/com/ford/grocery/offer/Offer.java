@@ -3,23 +3,24 @@ package com.ford.grocery.offer;
 import java.time.LocalDate;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.ford.grocery.ShoppingBasket;
 import com.ford.grocery.stock.StockItem;
 
 public class Offer {
 
-    private Function<LocalDate, Boolean> validity = (localDate -> true);
+    private Predicate<LocalDate> validity = (localDate -> true);
 
     private StockItem discountedProduct;
 
     private final static Discount NO_DISCOUNT = new Discount(0, 0);
 
-    private Function<ShoppingBasket, Boolean> eligibility = basket -> false;
+    private Predicate<ShoppingBasket> eligibility = basket -> false;
 
     private BiFunction<ShoppingBasket,StockItem, Discount> discount = ((basketItems, stockItem) -> NO_DISCOUNT);
 
-    public static OfferBuilder newOffer(Function<ShoppingBasket, Boolean> eligibility){
+    public static OfferBuilder newOffer(Predicate<ShoppingBasket> eligibility){
         final Offer offer = new Offer();
         offer.eligibility = eligibility;
 
@@ -27,8 +28,8 @@ public class Offer {
     }
 
     public boolean isApplicableTo(final ShoppingBasket shoppingBasket) {
-        return this.eligibility.apply(shoppingBasket)
-                && this.validity.apply(shoppingBasket.getShoppingDate());
+        return this.eligibility.test(shoppingBasket)
+                && this.validity.test(shoppingBasket.getShoppingDate());
     }
 
     public Discount calculateDiscount(final ShoppingBasket basket) {
@@ -53,7 +54,7 @@ public class Offer {
             return this;
         }
 
-        public OfferBuilder validFor(final Function<LocalDate, Boolean> validity) {
+        public OfferBuilder validFor(final Predicate<LocalDate> validity) {
             this.offer.validity = validity;
             return this;
         }
