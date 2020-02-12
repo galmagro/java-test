@@ -1,11 +1,14 @@
 package com.ford.grocery;
 
-import static com.ford.grocery.ItemUnitType.BOTTLE;
-import static com.ford.grocery.ItemUnitType.LOAF;
-import static com.ford.grocery.ItemUnitType.TIN;
+import static com.ford.grocery.stock.ItemUnitType.BOTTLE;
+import static com.ford.grocery.stock.ItemUnitType.LOAF;
+import static com.ford.grocery.stock.ItemUnitType.TIN;
 import static org.junit.Assert.assertEquals;
 
-import com.ford.grocery.json.JsonStockItemRepository;
+import com.ford.grocery.checkout.CheckoutService;
+import com.ford.grocery.checkout.Receipt;
+
+import com.ford.grocery.stock.json.JsonStockItemRepository;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.ford.grocery.json;
+package com.ford.grocery.stock.json;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ford.grocery.StockItem;
-import com.ford.grocery.StockItemRepository;
+import com.ford.grocery.stock.StockItem;
+import com.ford.grocery.stock.StockItemRepository;
 
 public class JsonStockItemRepository implements StockItemRepository {
 

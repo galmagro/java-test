@@ -1,4 +1,4 @@
-package com.ford.grocery;
+package com.ford.grocery.stock;
 
 public enum ItemUnitType {
     TIN,

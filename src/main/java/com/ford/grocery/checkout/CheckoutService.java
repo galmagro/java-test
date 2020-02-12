@@ -1,6 +1,10 @@
-package com.ford.grocery;
+package com.ford.grocery.checkout;
 
 import static java.lang.String.format;
+
+import com.ford.grocery.ShoppingBasket;
+import com.ford.grocery.stock.StockItem;
+import com.ford.grocery.stock.StockItemRepository;
 
 public class CheckoutService {
 

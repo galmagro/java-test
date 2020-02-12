@@ -1,4 +1,4 @@
-package com.ford.grocery;
+package com.ford.grocery.stock;
 
 public class StockItem {
 
@@ -7,6 +7,15 @@ public class StockItem {
     private ItemUnitType unit;
 
     private double cost;
+
+    public StockItem() {
+    }
+
+    public StockItem(final String product, final ItemUnitType unit, final double cost) {
+        this.product = product;
+        this.unit = unit;
+        this.cost = cost;
+    }
 
     public String getProduct() {
         return product;

@@ -1,4 +1,6 @@
-package com.ford.grocery;
+package com.ford.grocery.checkout;
+
+import com.ford.grocery.stock.StockItem;
 
 public class Receipt {
 
