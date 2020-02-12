@@ -11,6 +11,7 @@ import com.ford.grocery.checkout.Receipt;
 
 import com.ford.grocery.offer.memory.InMemoryOfferRepository;
 import com.ford.grocery.stock.json.JsonStockItemRepository;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,13 +68,14 @@ public class ShoppingTest {
     }
 
     @Test
-    public void shouldApplyDiscountForApples(){
+    public void shouldNotApplyDiscountForApples(){
         ShoppingBasket basket = new ShoppingBasket();
         basket.add(6, SINGLE, "apples");
         basket.add(1, BOTTLE, "milk");
 
         Receipt receipt = checkoutService.checkout(basket);
-        assertEquals("basket total price doesn't apply apple discounts correctly", 1.90, receipt.getTotal(), DELTA);
+        assertEquals("basket total price shouldn't be applying apple discounts", 1.90, receipt.getTotal(), DELTA);
+        Assert.assertTrue(receipt.getDiscounts().isEmpty());
 
     }
 
