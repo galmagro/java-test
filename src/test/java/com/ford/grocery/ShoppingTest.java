@@ -2,6 +2,7 @@ package com.ford.grocery;
 
 import static com.ford.grocery.stock.ItemUnitType.BOTTLE;
 import static com.ford.grocery.stock.ItemUnitType.LOAF;
+import static com.ford.grocery.stock.ItemUnitType.SINGLE;
 import static com.ford.grocery.stock.ItemUnitType.TIN;
 import static org.junit.Assert.assertEquals;
 
@@ -63,6 +64,17 @@ public class ShoppingTest {
 
         Receipt receipt = checkoutService.checkout(basket);
         assertEquals("basket total price doesn't apply soup discounts correctly", 3.15, receipt.getTotal(), DELTA);
+    }
+
+    @Test
+    public void shouldApplyDiscountForApples(){
+        ShoppingBasket basket = new ShoppingBasket();
+        basket.add(6, SINGLE, "apples");
+        basket.add(1, BOTTLE, "milk");
+
+        Receipt receipt = checkoutService.checkout(basket);
+        assertEquals("basket total price doesn't apply apple discounts correctly", 1.90, receipt.getTotal(), DELTA);
+
     }
 
 }

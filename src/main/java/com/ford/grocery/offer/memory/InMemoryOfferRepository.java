@@ -4,7 +4,11 @@ import static com.ford.grocery.stock.ItemUnitType.LOAF;
 import static com.ford.grocery.stock.ItemUnitType.SINGLE;
 import static com.ford.grocery.stock.ItemUnitType.TIN;
 import static java.lang.Math.min;
+import static java.time.LocalDate.now;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.TemporalAdjuster;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +28,7 @@ public class InMemoryOfferRepository implements OfferRepository {
         final Offer soupTinsOffer = Offer
                 .newOffer(basket -> basket.hasAtLeast(2, TIN, "soup") && basket.hasAtLeast(1, LOAF, "bread"))
                 .forProduct(new StockItem("bread", LOAF, 0.80))
+                .validFor(shoppingDate -> shoppingDate.compareTo(now().minusDays(1)) >=0 && shoppingDate.compareTo(now().plusDays(6)) <=0)
                 .withDiscount((basket, discountedProduct) -> {
                     final int numSoupTins = basket.getCount(TIN, "soup");
                     final int numLoafBread = basket.getCount(LOAF, "bread");
@@ -38,6 +43,8 @@ public class InMemoryOfferRepository implements OfferRepository {
         final Offer applesOffer = Offer
                 .newOffer(basket -> basket.hasAtLeast(1, SINGLE, "apples"))
                 .forProduct(new StockItem("apples", SINGLE, 0.10))
+                .validFor(shoppingDate -> shoppingDate.compareTo(now().plusDays(3)) >=0 &&
+                        shoppingDate.compareTo(YearMonth.from(now().plusMonths(1)).atEndOfMonth()) <=0)
                 .withDiscount((basket, discountedProduct) -> {
                     final int numApples = basket.getCount(SINGLE, "apples");
 

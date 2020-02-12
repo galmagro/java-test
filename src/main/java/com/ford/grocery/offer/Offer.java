@@ -9,9 +9,7 @@ import com.ford.grocery.stock.StockItem;
 
 public class Offer {
 
-    private LocalDate validFrom;
-
-    private LocalDate validTo;
+    private Function<LocalDate, Boolean> validity = (localDate -> true);
 
     private StockItem discountedProduct;
 
@@ -29,7 +27,8 @@ public class Offer {
     }
 
     public boolean isApplicableTo(final ShoppingBasket shoppingBasket) {
-        return this.eligibility.apply(shoppingBasket);
+        return this.eligibility.apply(shoppingBasket)
+                && this.validity.apply(shoppingBasket.getShoppingDate());
     }
 
     public Discount calculateDiscount(final ShoppingBasket basket) {
@@ -51,6 +50,11 @@ public class Offer {
 
         public OfferBuilder withDiscount(final BiFunction<ShoppingBasket, StockItem, Discount> applicableDiscount) {
             this.offer.discount = applicableDiscount;
+            return this;
+        }
+
+        public OfferBuilder validFor(final Function<LocalDate, Boolean> validity) {
+            this.offer.validity = validity;
             return this;
         }
 

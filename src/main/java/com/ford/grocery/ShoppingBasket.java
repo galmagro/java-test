@@ -1,5 +1,6 @@
 package com.ford.grocery;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,6 +15,16 @@ import com.ford.grocery.stock.ItemUnitType;
 public class ShoppingBasket implements Iterable<ShoppingBasket.BasketItem> {
 
     private Map<BasketKey, Integer> itemCounts = new HashMap<>();
+
+    private LocalDate shoppingDate;
+
+    public ShoppingBasket() {
+        this.shoppingDate =  LocalDate.now();
+    }
+
+    public ShoppingBasket(LocalDate shoppingDate) {
+        this.shoppingDate = shoppingDate;
+    }
 
     public void add(final int quantity, final ItemUnitType unitType, final String product) {
         final BasketKey basketKey = new BasketKey(product, unitType);
@@ -54,6 +65,10 @@ public class ShoppingBasket implements Iterable<ShoppingBasket.BasketItem> {
      */
     public boolean isEligibleFor(final Offer offer) {
         return offer.isApplicableTo(this);
+    }
+
+    public LocalDate getShoppingDate() {
+        return shoppingDate;
     }
 
     public class BasketItem {
